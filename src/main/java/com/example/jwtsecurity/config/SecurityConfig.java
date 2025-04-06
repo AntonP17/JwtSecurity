@@ -30,7 +30,7 @@ public class SecurityConfig {
 
         httpSecurity
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(authorize -> authorize
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -39,6 +39,11 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(loggingFilter, JwtAuthenticationFilter.class);
+
+        httpSecurity.requiresChannel(channel -> channel
+                .anyRequest()
+                .requiresSecure()
+        );
 
         return httpSecurity.build();
     }

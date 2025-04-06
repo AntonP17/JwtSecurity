@@ -3,13 +3,14 @@ package com.example.jwtsecurity.service;
 
 import com.example.jwtsecurity.repository.UserRepository;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 @Service
 public class OurUserDetailedService implements UserDetailsService {
@@ -28,18 +29,26 @@ public class OurUserDetailedService implements UserDetailsService {
         if (!user.isAccountNonLocked()) {
             throw new LockedException("Account is locked");
         }
-        return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        return new User(
+                user.getUsername(),
+                user.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
+        );
     }
 
     public void lockUser(String username) {
         com.example.jwtsecurity.model.User user = userRepository.findByUsername(username);
-        user.setAccountNonLocked(false);
-        userRepository.save(user);
+        if (user != null) {
+            user.setAccountNonLocked(false);
+            userRepository.save(user);
+        }
     }
 
     public void unlockUser(String username) {
         com.example.jwtsecurity.model.User user = userRepository.findByUsername(username);
-        user.setAccountNonLocked(true);
-        userRepository.save(user);
+        if (user != null) {
+            user.setAccountNonLocked(true);
+            userRepository.save(user);
+        }
     }
 }

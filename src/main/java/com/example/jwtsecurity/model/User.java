@@ -22,10 +22,10 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
     private Role role;
 
-    private boolean isAccountNonLocked;
+    @Column(nullable = false)
+    private boolean isAccountNonLocked = true;
 
     public Long getId() {
         return id;
