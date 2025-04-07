@@ -24,7 +24,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(nullable = false)
+    @Column(name = "account_non_locked")
     private boolean isAccountNonLocked = true;
 
     public Long getId() {
