@@ -6,24 +6,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
-public class UserController {
-
+@RequestMapping("/api/secured")
+public class SecuredController {
     @PreAuthorize("hasRole('USER')")
-    @GetMapping("/user")
-    public String getUserProfile() {
-        return"User Profile";
+    @GetMapping("/user-resource")
+    public String getUserResource() {
+        return "User Resource";
     }
 
     @PreAuthorize("hasRole('MODERATOR')")
-    @GetMapping("/moderator")
-    public String getModeratorProfile() {
-        return "Moderator Profile";
+    @GetMapping("/moderator-resource")
+    public String getModeratorResource() {
+        return "Moderator Resource";
     }
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    @GetMapping("/admin")
-    public String getAdminProfile() {
-        return "Admin Profile";
+    @GetMapping("/admin-resource")
+    public String getAdminResource() {
+        return "Admin Resource";
     }
 }

@@ -4,7 +4,6 @@ package com.example.jwtsecurity.service;
 import com.example.jwtsecurity.repository.UserRepository;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,10 +28,10 @@ public class OurUserDetailedService implements UserDetailsService {
         if (!user.isAccountNonLocked()) {
             throw new LockedException("Account is locked");
         }
-        return new User(
+        return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
         );
     }
 
