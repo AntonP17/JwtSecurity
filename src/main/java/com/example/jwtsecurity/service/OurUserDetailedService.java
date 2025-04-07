@@ -22,7 +22,7 @@ public class OurUserDetailedService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.example.jwtsecurity.model.User user = userRepository.findByUsername(username);
+        var user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
@@ -37,7 +37,7 @@ public class OurUserDetailedService implements UserDetailsService {
     }
 
     public void lockUser(String username) {
-        com.example.jwtsecurity.model.User user = userRepository.findByUsername(username);
+        var user = userRepository.findByUsername(username);
         if (user != null) {
             user.setAccountNonLocked(false);
             userRepository.save(user);
@@ -45,7 +45,7 @@ public class OurUserDetailedService implements UserDetailsService {
     }
 
     public void unlockUser(String username) {
-        com.example.jwtsecurity.model.User user = userRepository.findByUsername(username);
+        var user = userRepository.findByUsername(username);
         if (user != null) {
             user.setAccountNonLocked(true);
             userRepository.save(user);
